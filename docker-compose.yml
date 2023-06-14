@@ -11,7 +11,7 @@ services:
                         ## 개발 버전이므로 .dev가 붙은 Dockerfile로 구성
 
                 container_name: sm4-backend-container
-                # cpus: 2
+                
                 mem_limit: 2048m
 
                 working_dir: /backend/
@@ -43,7 +43,6 @@ services:
                         
                 container_name: sm4-database-container
 
-                # cpus: 2
                 mem_limit: 1024m
 
                 expose:
@@ -52,7 +51,7 @@ services:
                         - "5432:5432"
 
                 environment:
-                        - POSTGRES_DB=platform
+                        - POSTGRES_DB=sm4
                         - POSTGRES_USER=testuser
                         - POSTGRES_PASSWORD=user123!
                         - PGDATA=/var/lib/postgresql/data/pgdata

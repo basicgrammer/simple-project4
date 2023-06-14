@@ -25,7 +25,15 @@ SECRET_KEY = 'django-insecure-jd%_jw_&&n017jp&p%++ed13&4&l*k%!lt=xbxwr%x8)4-7&la
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+
+# 개발 버전이므로 모든 접근을 허용
+
+if DEBUG :
+    ALLOWED_HOSTS = ['*']
+
+else :
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'auth_app',
+    'platform_app',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +86,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sm4',
+        'USER': 'testuser',
+        'PASSWORD': 'user123!',
+        'HOST': '172.25.0.12',
+        'PORT': '5432',
     }
 }
 
