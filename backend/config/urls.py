@@ -23,8 +23,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 urlpatterns = [
-    path('', include('auth_app.urls')),
-    path('', include('platform_app.urls')),    
+    path('api', include('auth_app.urls')),
+    path('api', include('platform_app.urls')),    
 ]
 
 
