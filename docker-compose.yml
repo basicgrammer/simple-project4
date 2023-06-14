@@ -1,0 +1,77 @@
+## docker Swarm이 아닌 docker-compose로 운영하므로 version을 2버전대로 작성
+
+version : '2.4'
+
+services:
+          
+        backend:
+                build:
+                        context: ./Dockerfiles
+                        dockerfile: Dockerfile-django.dev
+                        ## 개발 버전이므로 .dev가 붙은 Dockerfile로 구성
+
+                container_name: sm4-backend-container
+                # cpus: 2
+                mem_limit: 2048m
+
+                working_dir: /backend/
+              
+                entrypoint: ["sh", "entrypoint.sh"]
+
+                volumes:
+                        - ./backend:/backend
+
+                ports: 
+                        - "80:80"
+
+                restart: always
+
+                networks:
+                  default_bridge:
+                    ipv4_address: 172.25.0.10
+
+                        
+                depends_on:
+                        - database
+
+        database:
+
+                build:
+                        context: ./Dockerfiles
+                        dockerfile: Dockerfile-postgres.dev
+                        ## 개발 버전이므로 .dev가 붙은 Dockerfile로 구성
+                        
+                container_name: sm4-database-container
+
+                # cpus: 2
+                mem_limit: 1024m
+
+                expose:
+                        - "5432"
+                ports:
+                        - "5432:5432"
+
+                environment:
+                        - POSTGRES_DB=platform
+                        - POSTGRES_USER=testuser
+                        - POSTGRES_PASSWORD=user123!
+                        - PGDATA=/var/lib/postgresql/data/pgdata
+
+                volumes:
+                        - /etc/timezone:/etc/timezone:ro ## 호스트 OS와의 시간 동기화 
+                        - ./init/:/docker-entrypoint-initdb.d/
+                        - ./pgdata:/var/lib/postgresql/data
+
+                restart: always
+
+                networks:
+                  default_bridge:
+                    ipv4_address: 172.25.0.12
+                
+networks:
+  default_bridge:
+          name: sm4-priv-network
+          ipam:
+            driver: default
+            config:
+              - subnet: 172.25.0.0/16
