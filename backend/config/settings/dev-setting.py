@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'auth_app',
     'platform_app',
     'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
