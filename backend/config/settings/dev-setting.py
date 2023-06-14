@@ -13,17 +13,16 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from environ import Env
 
-env = Env()
-
-env_path = BASE_DIR / ".env"
-
-if env_path.exists() :
-
-    with env_path.open("rt", encoding="utf8") as f:
-        env.read_env(f, overwrite=True) 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+env = Env()
+env_path = BASE_DIR / ".env"
+
+if env_path.exists() :
+    with env_path.open("rt", encoding="utf8") as f:
+        env.read_env(f, overwrite=True) 
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,7 +41,7 @@ APPEND_SLASH = False
 if DEBUG :
     ALLOWED_HOSTS = ['*']
 else :
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['*'] ## 추후 DEBUG가 False 경우 허용되는 HOST를 수정해야함
 
 
 # Application definition
@@ -88,19 +87,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env(DATABASE_NAME),
-        'USER': env(DATABASE_USER),
-        'PASSWORD': env(DATABASE_PASSWORD),
-        'HOST': env(DATABASE_HOST),
-        'PORT': env(DATABASE_PORT),
+        'NAME': env("DATABASE_NAME"),
+        'USER': env("DATABASE_USER"),
+        'PASSWORD': env("DATABASE_PASSWORD"),
+        'HOST': env("DATABASE_HOST"),
+        'PORT': env("DATABASE_PORT"),
     }
 }
 
