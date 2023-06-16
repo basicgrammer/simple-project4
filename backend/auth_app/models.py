@@ -5,7 +5,10 @@ from django.db import models
 from django.utils import timezone
 
 
-__all__ = ("User",)
+__all__ = (
+    "User",
+    "Token",
+)
 
 
 class User(models.Model):
@@ -34,7 +37,7 @@ class User(models.Model):
     ]
     team = models.CharField(
         max_length=32,
-        chocies=TEAM_CATEGORY,
+        choices=TEAM_CATEGORY,
         default=TEAM_CATEGORY[0][0],
         null=False,
         verbose_name="소속 팀 이름",
@@ -45,4 +48,29 @@ class User(models.Model):
         db_table = "User"
 
     def __str__(self):
-        return self.title
+        return self.username
+
+
+class Token(models.Model):
+    id = models.AutoField(
+        primary_key=True,
+        verbose_name="기본키(자동 증가)",
+    )
+    relation_id = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        db_column="relation_id",
+    )
+    refresh_token = models.CharField(
+        max_length=256,
+        default="",
+        null=False,
+        verbose_name="발급된 rfresh_token 정보",
+    )
+
+    class Meta:
+        managed = True
+        db_table = "Token"
+
+    def __str__(self):
+        return self.relation_id
