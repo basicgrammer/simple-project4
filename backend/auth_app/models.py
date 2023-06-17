@@ -43,6 +43,17 @@ class User(models.Model):
         verbose_name="소속 팀 이름",
     )
 
+    date_joined = models.DateTimeField(
+        auto_now_add=True,
+        null=False,
+        verbose_name="가입 날짜",
+    )
+
+    last_login = models.DateTimeField(
+        null=True,
+        verbose_name="가입 날짜",
+    )
+
     class Meta:
         managed = True
         db_table = "User"

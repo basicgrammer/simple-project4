@@ -4,7 +4,7 @@ __all__ = ("CryptService",)
 
 
 class CryptService:
-    def password_crypt(plain_pw: str) -> str:
+    def password_crypt(self, plain_pw: str) -> str:
         ## 솔트 랜덤 생성 // byte
         # salt 값을 6 ~ 12 숫자가 크면 해독하는 데 오래걸림
         new_salt = bcrypt.gensalt()
