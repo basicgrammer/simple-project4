@@ -47,3 +47,9 @@
 - Github Action을 활용한 테스트 수행
 
 - 테스트 코드의 커버리지 검사를 위한 Codecov 도입
+
+### 해결해야하는 문제
+
+- 로그인 API Query 캐싱 문제
+  - evaluate 같은 all()이 아닌 filter로 가져오는 특수한 경우에는 어떤식으로 캐싱을 해서 DB Hit 수를 줄여야함.
+  - queryset[0].id & queryset[0].password를 가져오는 부분이 있기에 둘은 같은 쿼리를 호출하지만, 값을 재활용하는 캐싱이 되지 않기 때문에 DB에 호출을 2번을 하게 된다.
