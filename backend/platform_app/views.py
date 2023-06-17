@@ -70,7 +70,7 @@ class BasicViewSet(viewsets.ModelViewSet):
         operation_description="Task 업무 전체 조회",
         # request_body=serializer_class,
         responses={
-            "200": RetrieveSerializer,
+            "200": TaskRetrieveSerializer,
             "400": ErrorCollection().as_md(APPLY_RESPONSE),
         },
     )
@@ -78,7 +78,7 @@ class BasicViewSet(viewsets.ModelViewSet):
     def list(self, request):
         result = TaskService().get_user_data()
 
-        serializer = RetrieveSerializer(
+        serializer = TaskRetrieveSerializer(
             instance=result, read_only=True, many=True
         )
 
@@ -88,7 +88,7 @@ class BasicViewSet(viewsets.ModelViewSet):
         operation_description="Task 업무 필터 조회",
         # request_body=serializer_class,
         responses={
-            "200": RetrieveSerializer,
+            "200": TaskRetrieveSerializer,
             "400": ErrorCollection().as_md(APPLY_RESPONSE),
         },
     )
@@ -98,7 +98,9 @@ class BasicViewSet(viewsets.ModelViewSet):
         result = TaskService().get_user_data(pk)
 
         if pk is not None and result:  ## 유저 고유 ID가 None이 아닌 경우
-            serializer = RetrieveSerializer(instance=result[0], read_only=True)
+            serializer = TaskRetrieveSerializer(
+                instance=result, many=True, read_only=True
+            )
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

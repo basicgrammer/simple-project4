@@ -9,7 +9,6 @@ __all__ = (
     "SubTaskSerializer",
     "TaskSchema",
     "TaskRetrieveSerializer",
-    "RetrieveSerializer",
 )
 
 
@@ -79,7 +78,7 @@ class SubTaskRetrieveSerializer(serializers.ModelSerializer):
 
 
 class TaskRetrieveSerializer(serializers.ModelSerializer):
-    sub_set = SubTaskRetrieveSerializer(many=True)
+    # sub_set = SubTaskRetrieveSerializer(many=True)
 
     class Meta:
         model = Task
@@ -97,13 +96,13 @@ class TaskRetrieveSerializer(serializers.ModelSerializer):
         )
 
 
-class RetrieveSerializer(serializers.ModelSerializer):
-    task_set = TaskRetrieveSerializer(many=True)
+# class RetrieveSerializer(serializers.ModelSerializer):
+#     task_set = TaskRetrieveSerializer(many=True)
 
-    class Meta:
-        model = User
-        fields = (
-            "username",
-            "team",
-            "task_set",
-        )
+#     class Meta:
+#         model = User
+#         fields = (
+#             "username",
+#             "team",
+#             "task_set",
+#         )
