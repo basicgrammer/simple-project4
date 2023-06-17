@@ -2,7 +2,7 @@ from django.urls import include, path, re_path
 
 from rest_framework import routers
 
-from auth_app import views
+from auth_app.views import *
 
 
 app_name = "auth_app"
@@ -12,6 +12,6 @@ app_name = "auth_app"
 
 urlpatterns = [
     # path("/", include(router.urls)),
-    path("/signup", views.SignUpView.as_view(), name="SignUp"),
-    path("/signin", views.SignInView.as_view(), name="SignIn"),
+    path("/signup", SignUpView.as_view(), name="SignUp"),
+    path("/signin", SignInView.as_view(), name="SignIn"),
 ]

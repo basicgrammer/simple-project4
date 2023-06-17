@@ -24,8 +24,10 @@ class AuthService:
             pair_password = pair_password.encode("utf-8")
 
             result = bcrypt.checkpw(password.encode("utf-8"), pair_password)
+            target = query_set[0]
 
         else:
             result = False
+            target = None
 
-        return result
+        return result, target
