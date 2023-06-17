@@ -17,11 +17,24 @@ class Task(models.Model):
     create_user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        related_name="task_set",
+        related_query_name="task",
         db_column="create_user",
         verbose_name="업무 생성 유저(외래키)",
     )
+    TEAM_CATEGORY = [
+        ("danbi", "단비"),
+        ("darae", "다래"),
+        ("blah", "블라"),
+        ("rail", "철로"),
+        ("sloth", "해태"),
+        ("ddang", "땅이"),
+        ("supi", "수피"),
+    ]
     team = models.CharField(
         max_length=32,
+        choices=TEAM_CATEGORY,
+        default=TEAM_CATEGORY[0][0],
         verbose_name="팀 이름",
     )
     title = models.CharField(
@@ -71,11 +84,25 @@ class SubTask(models.Model):
     relation_id = models.ForeignKey(
         Task,
         on_delete=models.CASCADE,
+        related_name="sub_set",
+        related_query_name="sub",
         db_column="relation_id",
         verbose_name="FK 외래키",
     )
+    TEAM_CATEGORY = [
+        ("danbi", "단비"),
+        ("darae", "다래"),
+        ("blah", "블라"),
+        ("rail", "철로"),
+        ("sloth", "해태"),
+        ("ddang", "땅이"),
+        ("supi", "수피"),
+    ]
+
     team = models.CharField(
         max_length=32,
+        choices=TEAM_CATEGORY,
+        default=TEAM_CATEGORY[0][0],
         verbose_name="하위 업무 담당 팀",
     )
     create_date = models.DateTimeField(  ## 업무 생성은 해당 데이터를 생성하는 과정과 동시에 자동 생성
