@@ -207,3 +207,9 @@ $ sudo docker stats
 
 - GitHub Action에서 Pytest를 수행하는 경우 가상환경을 고려하여 DJNAGO_SETTINGS_MODULE을 config.pytest_settings로 해야한다.
 - 컨테이너 구동 환경에서는 DJANGO_SETTINGS_MODULE을 config.settings로 전환하면 된다.
+
+### 현행 문제
+
+- 업무 수정 (patch)의 버그가 수정되지 않았기에 업무 수정 API가 정상적으로 동작하지 않음
+- Pytest에서도 업무 수정 API에 관련된 테스트는 배제하도록 처리해둠
+- 추후 고려하여 코드를 개편할 예정
