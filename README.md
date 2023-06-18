@@ -1,9 +1,8 @@
 ### 버전 정보
 
-- ![python](https://img.shields.io/badge/Python3.8-03776AB?style=flat&logo=Python&logoColor=white)
-
-- ![Django](https://img.shields.io/badge/Django4.2.1-092E20?style=flat&logo=Django&logoColor=white)
-- Postgres : 13
+- ![python](https://img.shields.io/badge/Python:3.8-03776AB?style=flat&logo=Python&logoColor=white)
+- ![Django](https://img.shields.io/badge/Django:4.2.1-092E20?style=flat&logo=Django&logoColor=white)
+- ![Postgres](https://img.shields.io/badge/Postgres:13-4169E1?style=flat&logo=Postgres&logoColor=white)
 
 ## pip library 정보
 
