@@ -1,6 +1,6 @@
 ### 버전 정보
 
-![python] (https://img.shields.io/badge/Python3.8-03776AB?style=flat&logo=Python&logoColor=white)
+- ![python](https://img.shields.io/badge/Python3.8-03776AB?style=flat&logo=Python&logoColor=white)
 
 - Django : 4.2.1
 - Postgres : 13
