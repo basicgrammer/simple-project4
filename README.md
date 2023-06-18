@@ -105,6 +105,10 @@ $ sudo docker stats
 
 ---
 
+### API Document
+
+- URL : http://{IP}/swagger
+
 ### 변경 및 도입 정보
 
 - psycopg2가 desperated가 될 수 있다는 문장이 언급되므로 psycopg[binary]에서 3버전을 설치한다.

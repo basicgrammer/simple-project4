@@ -100,22 +100,6 @@ class TaskRetrieveSerializer(serializers.ModelSerializer):
         )
 
 
-# class TaskUpdateSchema(serializers.ModelSerializer):
-#     class Meta:
-#         # model = Task
-#         fields = (
-#             "modified_user",
-#             "pk",
-#             "create_user",
-#             "team",
-#             "title",
-#             "content",
-#             "create_date",
-#             "modified_date",
-#             "is_complete",
-#             "complete_date",
-#             "sub_set",
-#         )
 class SubTaskUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubTask

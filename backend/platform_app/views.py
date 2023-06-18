@@ -1,17 +1,18 @@
+## 기본
 import json
 import copy
 
-from rest_framework import viewsets, permissions, generics, status
-from rest_framework.response import Response
+## 서드파티
 from django.views.decorators.csrf import csrf_exempt
 from django.db import transaction
+from rest_framework import viewsets, permissions, generics, status
+from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 
+## 로컬
 from platform_app.serializers import *
 from platform_app.models import *
-
 from .Services.TaskService import *
-
 from custom.custom_response import *
 
 
@@ -21,11 +22,11 @@ APPLY_RESPONSE = {
 }
 
 
-class BasicViewSet(viewsets.ModelViewSet):
-    ## 일반 GET 조회 시 아래 로직이 동작함?
+class BasicViewSet(viewsets.ModelViewSet):  ## REST API 구성을 위해 ModelViewSet 활용
     queryset = Task.objects.all()
     serializer_class = TaskSchema
 
+    ## -------------------------------------------------------------------
     @swagger_auto_schema(
         operation_description="Task 업무 생성",
         request_body=serializer_class,
@@ -36,7 +37,7 @@ class BasicViewSet(viewsets.ModelViewSet):
     )
     @csrf_exempt
     @transaction.atomic
-    def create(self, request):
+    def create(self, request):  ## Create API
         data = json.loads(request.body)
 
         check, res_message = TaskService().info_match_check(
@@ -66,16 +67,16 @@ class BasicViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+    ## -------------------------------------------------------------------
     @swagger_auto_schema(
         operation_description="Task 업무 전체 조회",
-        # request_body=serializer_class,
         responses={
             "200": TaskRetrieveSerializer,
             "400": ErrorCollection().as_md(APPLY_RESPONSE),
         },
     )
     @csrf_exempt
-    def list(self, request):
+    def list(self, request):  ## List API
         result = TaskService().get_user_data()
 
         serializer = TaskRetrieveSerializer(
@@ -84,6 +85,7 @@ class BasicViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    ## -------------------------------------------------------------------
     @swagger_auto_schema(
         operation_description="Task 업무 필터 조회",
         # request_body=serializer_class,
@@ -93,7 +95,7 @@ class BasicViewSet(viewsets.ModelViewSet):
         },
     )
     @csrf_exempt
-    def retrieve(self, request, pk: int = None):
+    def retrieve(self, request, pk: int = None):  ## Retrieve API
         # query = User.objects.filter(id = pk)
         result = TaskService().get_user_data(pk)
 
@@ -104,6 +106,7 @@ class BasicViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    ## -------------------------------------------------------------------
     @swagger_auto_schema(
         operation_description="Task 업무 수정",
         request_body=TaskUpdateSchema,
@@ -114,7 +117,7 @@ class BasicViewSet(viewsets.ModelViewSet):
     )
     @csrf_exempt
     @transaction.atomic
-    def partial_update(self, request, pk: int):
+    def partial_update(self, request, pk: int):  ##Patch API
         data = json.loads(request.body)
 
         ## 본인 확인
@@ -191,11 +194,19 @@ class BasicViewSet(viewsets.ModelViewSet):
         # response = {"message": "기능 활성화 완료"}
         # return Response(response, status=status.HTTP_200_OK)
 
+    ## -------------------------------------------------------------------
+    @swagger_auto_schema(
+        operation_description="해당 API Method는 사용하지 않습니다.",
+    )
     @csrf_exempt
     def destroy(self, request, pk: int):
         response = {"message": "해당 기능은 활성화되지 않았습니다."}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
+    ## -------------------------------------------------------------------
+    @swagger_auto_schema(
+        operation_description="해당 API Method는 사용하지 않습니다.",
+    )
     @csrf_exempt
     def update(self, request, pk: int):
         response = {"message": "해당 기능은 활성화되지 않았습니다."}
