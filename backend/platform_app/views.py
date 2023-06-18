@@ -157,22 +157,38 @@ class BasicViewSet(viewsets.ModelViewSet):
         elif result == 1:
             task_data, target = TaskService().task_update(fix_data)
 
-            serializer = TaskSemiSerializer(
-                target,
-                data=task_data,
-                partial=True,
-            )
-            if serializer.is_valid():
-                serializer.save()
+            team_check = TaskService().team_count(task_data)
 
-                return Response(serializer.data, status=status.HTTP_200_OK)
+            if team_check:
+                serializer = TaskSemiSerializer(
+                    target,
+                    data=task_data,
+                    partial=True,
+                )
+                if serializer.is_valid():
+                    instance = serializer.save()
 
-        serializer = TaskUpdateSerializer(data=data, partial=True)
-        if serializer.is_valid():
-            print("유효성 검증 확인")
+                    n_serializer = TaskSemiSerializer(instance=instance)
 
-        response = {"message": "기능 활성화 완료"}
-        return Response(response, status=status.HTTP_200_OK)
+                return Response(n_serializer.data, status=status.HTTP_200_OK)
+
+            else:
+                res_code = 400
+                message = "하위 업무에서 중복되는 팀이 존재합니다."
+
+                custom_res = custom_response(res_code, message)
+
+                return Response(
+                    custom_res,
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        # serializer = TaskUpdateSerializer(data=data, partial=True)
+        # if serializer.is_valid():
+        #     print("유효성 검증 확인")
+
+        # response = {"message": "기능 활성화 완료"}
+        # return Response(response, status=status.HTTP_200_OK)
 
     @csrf_exempt
     def destroy(self, request, pk: int):

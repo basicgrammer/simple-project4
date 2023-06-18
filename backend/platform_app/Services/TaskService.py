@@ -94,7 +94,6 @@ class TaskService:
                 return 2, fix_data[0]
 
             else:  ## user_pk와 data['pk'] 가 동일한 경우이므로
-                print("----------- user_pk 및 data['pk'] 동일 ")
                 data["modified_date"] = timezone.now()
 
                 ## is_delete 체크가 True가 되는 경우 하위 업무도 모두 True로 변경한다.
@@ -142,3 +141,25 @@ class TaskService:
             fix_data["complete_date"] = None
 
         return fix_data, query[0]
+
+    def team_count(self, data: list) -> bool:
+        print("Team_Count Check")
+        team_list = [
+            "danbi",
+            "darae",
+            "blah",
+            "rail",
+            "sloth",
+            "ddang",
+            "supi",
+        ]
+        count_list = [0] * len(team_list)
+
+        for index in data["sub_set"]:
+            if index["team"] and index["is_delete"] == False:
+                count_list[team_list.index(index["team"])] += 1
+
+                if count_list[team_list.index(index["team"])] > 1:
+                    return False
+
+        return True
