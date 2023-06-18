@@ -129,7 +129,6 @@ $ sudo docker stats
   - 기존 Serializer은 중첩 구조 저장이 아닌 읽기 작업만을 허용함 (read only)
 
 ---
-
 ### 제약 사항
 
 - 개발환경
@@ -186,3 +185,13 @@ $ sudo docker stats
 - 업무 등록 (REST API로 등록 ~ 조회까지 묶어서 하나의 URL로 처리)
 - 업무 수정 and 삭제 (소프트 삭제를 사용할 예정이므로, 수정 기능에서 삭제 기능을 함께 구현함)
 - 업무 조회
+
+
+### 테스트코드 커버리지
+<img width="1271" alt="image" src="https://github.com/basicgrammer/simple-project4/assets/55322993/ecde6275-d60b-4102-a5c8-1ecdb6271d2f">
+
+
+### Github Action을 활용한 테스트코드 자동화
+<img width="929" alt="image" src="https://github.com/basicgrammer/simple-project4/assets/55322993/7f117230-8f81-4af0-ae70-39268d34f95c">
+
+
