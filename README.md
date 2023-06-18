@@ -2,7 +2,7 @@
 
 - ![python](https://img.shields.io/badge/Python3.8-03776AB?style=flat&logo=Python&logoColor=white)
 
-- Django : 4.2.1
+- ![Django](https://img.shields.io/badge/Django4.2.1-092E20?style=flat&logo=Django&logoColor=white)
 - Postgres : 13
 
 ## pip library 정보
