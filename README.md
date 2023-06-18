@@ -4,7 +4,7 @@
 - ![Django](https://img.shields.io/badge/Django:4.2.1-092E20?style=flat&logo=Django&logoColor=white)
 - ![Postgres](https://img.shields.io/badge/Postgres:13-4169E1?style=flat&logo=Postgres&logoColor=white)
 
-## pip library 정보
+## pip library list
 
 ```shell
   asgiref             3.7.2
@@ -25,9 +25,83 @@
   sqlparse            0.4.4
   typing_extensions   4.6.3
   uritemplate         4.1.1
+  pytest              7.3.1
+  pytest-cov          4.0.0
+  pytest-django       4.5.2
+  pytest-xdist        3.3.1
   wheel               0.40.0
 
 ```
+
+---
+
+### 구동 환경
+
+- OS : Ubuntu 22.04 LTS
+- CPU : 8 vCPU
+- Memory : 16G
+- Docker Engine : Docker version 23.0.3, build 3e7cbfd
+- docker-commpose : Docker Compose version v2.13.0
+
+---
+
+### 컨테이너 환경 구동 명령어
+
+#### 컨테이너 기동
+
+```shell
+# docker-compose.yml 명세를 활용할 수 있는 디렉토리 위치에서 아래 명령을 실행해주세요.
+
+# 명세 기반 다중 컨테이너의 빌드 및 백그라운드 구동
+$ sudo docker-compose up --build -d
+
+# 명세 기반 다중 컨테이너의 이미지 신규 빌드 및 백그라운드 구동
+$ sudo docker-compose up --build -d --force-recreate
+```
+
+#### 컨테이너 기동 중지 및 일시 정지
+
+```shell
+# 명세 기반 다중 컨테이너 정지
+$ sudo docker-compose down
+
+# 일부 컨테이너 일시 정지
+$ sudo docker-compose stop {container_name}
+```
+
+#### 컨테이너 로그 확인
+
+```shell
+# 컨테이너 로그 모니터링
+$ sudo docker logs {container_name}
+
+# 컨테이너 지속적인 로그 모니터링
+$ sudo docker logs --tail 1000 -f {container_name}
+```
+
+#### 컨테이너 환경 접속
+
+```shell
+# django
+$ sudo docker exec -it {container_name} /bin/bash
+
+# mysql
+$ sudo docker exec -it {container_name} /bin/bash
+```
+
+#### docker-compose 명세 보기
+
+```shell
+$ sudo docker-compose config
+```
+
+#### 컨테이너 자원 활용 모니터링
+
+```shell
+$ sudo docker stats
+```
+
+---
 
 ### 변경 및 도입 정보
 
@@ -35,8 +109,15 @@
 - psycopg2 vs psycopg3의 성능 차이는 아래 링크를 참고하자 (3 초기 버전의 벤치마크라서 성능 최적화가 덜 되었다는 말이 있으나 3.1 버전에서 성능 최적화가 되었을 것이라고 본다.)
 - URL : https://www.spherex.dev/psycopg-2-vs-psycopg3/
 
-- django-environ 도입
+- django-environ 라이브러리 도입
+
   - django setting의 환경 변수 관리를 위한 env를 도입
+
+- drf-writable-nested 라이브러리 도입
+  - 중첩 구조의 데이터 저장을 위해 해당 라이브러리를 도입
+  - 기존 Serializer은 중첩 구조 저장이 아닌 읽기 작업만을 허용함 (read only)
+
+---
 
 ### 제약 사항
 
