@@ -1,8 +1,33 @@
 ### 버전 정보
 
-- Python : 3.9
+- Python : 3.9 ![python] (https://img.shields.io/badge/Python3.8-03776AB?style=flat&logo=Python&logoColor=white)
 - Django : 4.2.1
 - Postgres : 13
+
+## pip library 정보
+
+```shell
+  asgiref             3.7.2
+  bcrypt              4.0.1
+  Django              4.2.1
+  django-environ      0.10.0
+  djangorestframework 3.14.0
+  drf-writable-nested 0.7.0
+  drf-yasg            1.21.6
+  inflection          0.5.1
+  packaging           23.1
+  pip                 23.0.1
+  psycopg             3.1.9
+  psycopg-binary      3.1.9
+  pytz                2023.3
+  PyYAML              6.0
+  setuptools          58.1.0
+  sqlparse            0.4.4
+  typing_extensions   4.6.3
+  uritemplate         4.1.1
+  wheel               0.40.0
+
+```
 
 ### 변경 및 도입 정보
 

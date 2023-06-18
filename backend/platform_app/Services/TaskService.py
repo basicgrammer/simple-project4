@@ -143,7 +143,6 @@ class TaskService:
         return fix_data, query[0]
 
     def team_count(self, data: list) -> bool:
-        print("Team_Count Check")
         team_list = [
             "danbi",
             "darae",

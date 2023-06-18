@@ -113,6 +113,7 @@ class BasicViewSet(viewsets.ModelViewSet):
         },
     )
     @csrf_exempt
+    @transaction.atomic
     def partial_update(self, request, pk: int):
         data = json.loads(request.body)
 
