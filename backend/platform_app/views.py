@@ -104,17 +104,82 @@ class BasicViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+        operation_description="Task 업무 수정",
+        request_body=TaskUpdateSchema,
+        responses={
+            "200": TaskUpdateSerializer,
+            "400": ErrorCollection().as_md(APPLY_RESPONSE),
+        },
+    )
     @csrf_exempt
-    def partial_update(self, request):
+    def partial_update(self, request, pk: int):
+        data = json.loads(request.body)
+
+        ## 본인 확인
+        ## 조건 체크
+        res_code, message = TaskService().condition_check(pk, data)
+
+        if res_code == 400:
+            custom_res = custom_response(res_code, message)
+
+            return Response(
+                custom_res,
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        result, fix_data = TaskService().user_pair_check(pk, data)
+
+        if result == 0:
+            res_code = 400
+            message = "등록되지 않은 유저가 수정할 수 없습니다."
+
+            custom_res = custom_response(res_code, message)
+
+            return Response(
+                custom_res,
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        elif result == 2:
+            subtask_data, target = TaskService().subtask_update(fix_data)
+
+            serializer = SubTaskSemiSerializer(
+                target,
+                data=subtask_data,
+                partial=True,
+            )
+            if serializer.is_valid():
+                serializer.save()
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+        elif result == 1:
+            task_data, target = TaskService().task_update(fix_data)
+
+            serializer = TaskSemiSerializer(
+                target,
+                data=task_data,
+                partial=True,
+            )
+            if serializer.is_valid():
+                serializer.save()
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+
+        serializer = TaskUpdateSerializer(data=data, partial=True)
+        if serializer.is_valid():
+            print("유효성 검증 확인")
+
+        response = {"message": "기능 활성화 완료"}
+        return Response(response, status=status.HTTP_200_OK)
+
+    @csrf_exempt
+    def destroy(self, request, pk: int):
         response = {"message": "해당 기능은 활성화되지 않았습니다."}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
     @csrf_exempt
-    def destroy(self, request):
-        response = {"message": "해당 기능은 활성화되지 않았습니다."}
-        return Response(response, status=status.HTTP_403_FORBIDDEN)
-
-    @csrf_exempt
-    def update(self, request):
+    def update(self, request, pk: int):
         response = {"message": "해당 기능은 활성화되지 않았습니다."}
         return Response(response, status=status.HTTP_403_FORBIDDEN)
