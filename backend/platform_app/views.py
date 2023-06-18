@@ -39,13 +39,14 @@ class BasicViewSet(viewsets.ModelViewSet):  ## REST API 구성을 위해 ModelVi
     @transaction.atomic
     def create(self, request):  ## Create API
         data = json.loads(request.body)
+
         try:
             check, res_message = TaskService().info_match_check(
                 data["create_user"], data["team"]
             )
 
             if check:
-                deserializer = TaskSerializer(data=json.loads(request.body))
+                deserializer = TaskSerializer(data=data)
                 deserializer.is_valid(raise_exception=True)
                 instance = deserializer.save()
 
@@ -65,7 +66,7 @@ class BasicViewSet(viewsets.ModelViewSet):  ## REST API 구성을 위해 ModelVi
 
         except KeyError:
             res_code = 400
-            message = "요청 데이터가 누락되었습니다."
+            message = "요청 데이터가 누락되었습니다.!!"
             custom_res = custom_response(res_code, message)
 
             return Response(custom_res, status=status.HTTP_400_BAD_REQUEST)

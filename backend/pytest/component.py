@@ -6,6 +6,8 @@ __all__ = (
     "create_user_data2",
     "create_user_data3",
     "create_user_data4",
+    "create_user_data5",
+    "create_user_data6",
     "post_user_data1",
     "post_user_data2",
     "post_user_data3",
@@ -47,7 +49,7 @@ class ClientRequest:
 ## ------------------------------------------------------------------
 ## 회원가입 시나리오
 create_user_data1 = {
-    "username": "testuser",
+    "username": "testuser1",
     "password": "user123!",
     "team": "danbi",
 }
@@ -72,32 +74,45 @@ create_user_data4 = {
     "team": "ddang",
 }
 
+create_user_data5 = {
+    "username": "testuser117",
+    "password": "user123!",
+    "team": "danbi",
+}
+
+
+create_user_data6 = {
+    "username": "testuser154",
+    "password": "user123!",
+    "team": "danbi",
+}
+
 
 ## Method [POST] - signin API
 ## ------------------------------------------------------------------
 ## 회원가입 시나리오
 post_user_data1 = {
-    "username": "testuser10",
+    "username": "testuser19",
     "password": "user123!",
     "team": "rail",
 }
 
 ## 로그인 시나리오
 post_user_data2 = {
-    "username": "testuser10",
+    "username": "testuser19",
     "password": "user123!",
 }
 
 ## 회원가입 시나리오
 post_user_data3 = {
-    "username": "testuser11",
+    "username": "testuser23",
     "password": "user123!",
     "team": "darae",
 }
 
 ## KeyError Handling 시나리오
 post_user_data4 = {
-    "username": "testuser11",
+    "username": "testuser23",
 }
 
 ## Method [POST] - TaskCreateAPI
@@ -108,7 +123,11 @@ task_create_data1 = {
     "team": "danbi",
     "title": "테스트 시나리오 1",
     "content": "테스트 시나리오 1",
-    "sub_set": [{"team": "danbi"}],
+    "sub_set": [
+        {"team": "danbi"},
+        {"team": "rail"},
+        {"team": "ddang"},
+    ],
 }
 
 ## KeyError 확인 시나리오

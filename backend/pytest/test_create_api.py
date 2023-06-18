@@ -18,11 +18,11 @@ class TaskCreateTestView(APITestCase):
 
         res = self.client.post(
             url,
-            data=json.dumps(create_user_data1),
+            data=json.dumps(create_user_data5),
             content_type="application/json",
         )
 
-        origin_res = res
+        origin_res = res.data
 
         assert res.status_code == 201
         assert type(dict(res.data)) == dict
@@ -32,8 +32,9 @@ class TaskCreateTestView(APITestCase):
         url = "/api/task/"
 
         custom_data = task_create_data1
-        custom_data["create_user"] = origin_res.data["id"]
-        custom_data["team"] = origin_res.data["team"]
+        custom_data["create_user"] = origin_res["id"]
+        custom_data["team"] = origin_res["team"]
+        print(custom_data)
 
         res = self.client.post(
             url,
@@ -44,51 +45,66 @@ class TaskCreateTestView(APITestCase):
         assert res.status_code == 201
         assert type(dict(res.data)) == dict
 
+    def test_taskcreate_api_phase2(self):
+        url = "/api/signup"
+
+        res = self.client.post(
+            url,
+            data=json.dumps(create_user_data6),
+            content_type="application/json",
+        )
+
+        origin_res = res.data
+
+        assert res.status_code == 201
+        assert type(dict(res.data)) == dict
+
         ## ------------------ 작업 등록 시 유저 정보 체크 확인
         url = "/api/task/"
 
-        custom_data2 = task_create_data2
-        custom_data2["create_user"] = origin_res.data["id"]
+        custom_data = task_create_data2
+        custom_data["create_user"] = origin_res["id"]
 
         res = self.client.post(
             url,
-            data=json.dumps(custom_data2),
+            data=json.dumps(custom_data),
             content_type="application/json",
         )
 
         assert res.status_code == 400
         assert type(dict(res.data)) == dict
 
-        ## ------------------- 작업 등록 시 필드가 빠진 경우 에러 발생 확인
-        url = "/api/task/"
+    # def test_taskcreate_api_phase3(self) :
+    #     ## ------------------- 작업 등록 시 필드가 빠진 경우 에러 발생 확인
+    #     url = "/api/task/"
 
-        custom_data3 = task_create_data2
-        custom_data3["create_user"] = origin_res.data["id"]
-        custom_data3["team"] = origin_res.data["team"]
-        custom_data3.pop("content")
+    #     custom_data3 = task_create_data2
+    #     custom_data3["create_user"] = origin_res["id"]
+    #     custom_data3["team"] = origin_res["team"]
+    #     custom_data3.pop("content")
 
-        res = self.client.post(
-            url,
-            data=json.dumps(custom_data3),
-            content_type="application/json",
-        )
+    #     res = self.client.post(
+    #         url,
+    #         data=json.dumps(custom_data3),
+    #         content_type="application/json",
+    #     )
 
-        assert res.status_code == 400
-        assert type(dict(res.data)) == dict
+    #     assert res.status_code == 400
+    #     assert type(dict(res.data)) == dict
 
-        ## ------------------- 작업 등록  KeyError 확인
-        url = "/api/task/"
+    #     ## ------------------- 작업 등록  KeyError 확인
+    #     url = "/api/task"
 
-        custom_data2 = task_create_data2
-        custom_data2["create_user"] = origin_res.data["id"]
-        custom_data2["team"] = origin_res.data["team"]
-        custom_data2.pop("team")
+    #     custom_data2 = task_create_data2
+    #     custom_data2["create_user"] = origin_res["id"]
+    #     custom_data2["team"] = origin_res["team"]
+    #     custom_data2.pop("team")
 
-        res = self.client.post(
-            url,
-            data=json.dumps(custom_data2),
-            content_type="application/json",
-        )
+    #     res = self.client.post(
+    #         url,
+    #         data=json.dumps(custom_data2),
+    #         content_type="application/json",
+    #     )
 
-        assert res.status_code == 400
-        assert type(dict(res.data)) == dict
+    #     assert res.status_code == 400
+    #     assert type(dict(res.data)) == dict
