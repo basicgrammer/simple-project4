@@ -6,6 +6,7 @@ __all__ = (
     "SignUpSerializer",
     "SignInSchema",
     "SignInSerializer",
+    "UserSerializer",
 )
 
 
@@ -25,3 +26,14 @@ class SignInSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "last_login")
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("id", "username", "team")
+
+
+# class SignInSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User

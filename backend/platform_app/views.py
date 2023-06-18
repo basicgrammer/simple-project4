@@ -39,33 +39,36 @@ class BasicViewSet(viewsets.ModelViewSet):  ## REST API 구성을 위해 ModelVi
     @transaction.atomic
     def create(self, request):  ## Create API
         data = json.loads(request.body)
-
-        check, res_message = TaskService().info_match_check(
-            data["create_user"], data["team"]
-        )
-
-        if check:
-            serializer_class = TaskSerializer(data=json.loads(request.body))
-            serializer_class.is_valid(raise_exception=True)
-            task = serializer_class.save()
-
-            new_serializer = TaskSerializer(instance=task)
-
-            return Response(
-                new_serializer.data,
-                status=status.HTTP_201_CREATED,
+        try:
+            check, res_message = TaskService().info_match_check(
+                data["create_user"], data["team"]
             )
 
-        else:
-            res_code = 400
-            message = res_message
+            if check:
+                deserializer = TaskSerializer(data=json.loads(request.body))
+                deserializer.is_valid(raise_exception=True)
+                instance = deserializer.save()
 
+                serializer = TaskSerializer(instance=instance)
+
+                return Response(
+                    serializer.data, status=status.HTTP_201_CREATED
+                )
+
+            else:
+                res_code = 400
+                message = res_message
+
+                custom_res = custom_response(res_code, message)
+
+                return Response(custom_res, status=status.HTTP_400_BAD_REQUEST)
+
+        except KeyError:
+            res_code = 400
+            message = "요청 데이터가 누락되었습니다."
             custom_res = custom_response(res_code, message)
 
-            return Response(
-                custom_res,
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+            return Response(custom_res, status=status.HTTP_400_BAD_REQUEST)
 
     ## -------------------------------------------------------------------
     @swagger_auto_schema(
@@ -120,8 +123,7 @@ class BasicViewSet(viewsets.ModelViewSet):  ## REST API 구성을 위해 ModelVi
     def partial_update(self, request, pk: int):  ##Patch API
         data = json.loads(request.body)
 
-        ## 본인 확인
-        ## 조건 체크
+        ## 요청 데이터의 상위 업무에 PK값이 부재하는 경우 에러 발생시킴
         res_code, message = TaskService().condition_check(pk, data)
 
         if res_code == 400:
@@ -132,6 +134,7 @@ class BasicViewSet(viewsets.ModelViewSet):  ## REST API 구성을 위해 ModelVi
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
+        ## 유저 인증 및 수정을 위한 데이터만 따로 적출하는 작업을 수행한다.
         result, fix_data = TaskService().user_pair_check(pk, data)
 
         if result == 0:
@@ -146,35 +149,38 @@ class BasicViewSet(viewsets.ModelViewSet):  ## REST API 구성을 위해 ModelVi
             )
 
         elif result == 2:
+            ## 하위 업무의 경우 하위 업무만 적출해서 처리한다.
             subtask_data, target = TaskService().subtask_update(fix_data)
 
-            serializer = SubTaskSemiSerializer(
+            deserializer = SubTaskSemiSerializer(
                 target,
                 data=subtask_data,
                 partial=True,
             )
-            if serializer.is_valid():
-                serializer.save()
+            if deserializer.is_valid():
+                instance = deserializer.save()
+                serializer = SubTaskSemiSerializer(instance=instance)
 
                 return Response(serializer.data, status=status.HTTP_200_OK)
 
         elif result == 1:
+            print(data)
+            team_check = TaskService().team_count(data)
+            ## 상위 업무를 포함한 하위 업무를 모두 저장한다.
             task_data, target = TaskService().task_update(fix_data)
 
-            team_check = TaskService().team_count(task_data)
-
             if team_check:
-                serializer = TaskSemiSerializer(
+                deserializer = TaskSemiSerializer(
                     target,
                     data=task_data,
                     partial=True,
                 )
-                if serializer.is_valid():
-                    instance = serializer.save()
 
-                    n_serializer = TaskSemiSerializer(instance=instance)
+                if deserializer.is_valid():
+                    instance = deserializer.save()
+                    serializer = TaskSemiSerializer(instance=target)
 
-                return Response(n_serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.data, status=status.HTTP_200_OK)
 
             else:
                 res_code = 400

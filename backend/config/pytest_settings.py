@@ -15,7 +15,7 @@ from environ import Env
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = Env()
 env_path = BASE_DIR / ".env"
@@ -97,7 +97,7 @@ DATABASES = {
         "NAME": env("DATABASE_NAME"),
         "USER": env("DATABASE_USER"),
         "PASSWORD": env("DATABASE_PASSWORD"),
-        "HOST": env("DATABASE_HOST"),
+        "HOST": "localhost",
         "PORT": env("DATABASE_PORT"),
     }
 }

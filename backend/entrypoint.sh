@@ -1,6 +1,7 @@
 #!/bin/bash
 
-conf="--settings=config.settings.dev-setting"
+conf="--settings=config.settings"
+# conf="--settings=config.settings.dev-setting"
 
 echo "===== Create Specification ====="
 

@@ -28,6 +28,8 @@ def custom_response(res_code, message: str = None, data=None) -> dict:
     # message = "Response Message"
     # data = "Response Data"
 
+    print(message)
+
     if message is not None:
         if res_code == 200 or res_code == 201:
             message = message

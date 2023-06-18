@@ -7,29 +7,34 @@
 ## pip library list
 
 ```shell
-  asgiref             3.7.2
-  bcrypt              4.0.1
-  Django              4.2.1
-  django-environ      0.10.0
-  djangorestframework 3.14.0
-  drf-writable-nested 0.7.0
-  drf-yasg            1.21.6
-  inflection          0.5.1
-  packaging           23.1
-  pip                 23.0.1
-  psycopg             3.1.9
-  psycopg-binary      3.1.9
-  pytz                2023.3
-  PyYAML              6.0
-  setuptools          58.1.0
-  sqlparse            0.4.4
-  typing_extensions   4.6.3
-  uritemplate         4.1.1
-  pytest              7.3.1
-  pytest-cov          4.0.0
-  pytest-django       4.5.2
-  pytest-xdist        3.3.1
-  wheel               0.40.0
+
+asgiref             3.7.2
+bcrypt              4.0.1
+coverage            7.2.7
+Django              4.2.1
+django-environ      0.10.0
+djangorestframework 3.14.0
+drf-writable-nested 0.7.0
+drf-yasg            1.21.6
+exceptiongroup      1.1.1
+inflection          0.5.1
+iniconfig           2.0.0
+packaging           23.1
+pip                 23.0.1
+pluggy              1.0.0
+psycopg             3.1.9
+psycopg-binary      3.1.9
+pytest              7.3.1
+pytest-cov          4.0.0
+pytest-django       4.5.2
+pytz                2023.3
+PyYAML              6.0
+setuptools          58.1.0
+sqlparse            0.4.4
+tomli               2.0.1
+typing_extensions   4.6.3
+uritemplate         4.1.1
+wheel               0.40.0
 
 ```
 

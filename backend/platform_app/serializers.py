@@ -95,6 +95,7 @@ class TaskRetrieveSerializer(serializers.ModelSerializer):
             "create_date",
             "modified_date",
             "is_complete",
+            "is_delete",
             "complete_date",
             "sub_set",
         )
