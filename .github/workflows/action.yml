@@ -1,0 +1,57 @@
+# CI 이름 설정
+name: Acion-CI-simple-project4
+
+on: # Workflow가 실행되는 조건
+  push:
+    branches: [ "main" ]
+
+  # pull_request:
+  #   branches: [ "main" ]
+
+jobs: # Workflow 세부 작업 설정
+  build:
+  
+    runs-on: ubuntu-22.04
+    strategy:
+    ## 가용성에 따라 병렬로 실행되는 작업 수를 최대화함, 작업 전략 사용 시 동시에 실행할 수 있는 최대 작업 수를 설정하려면 matrix를 사용하면 됨.
+      max-parallel: 2 
+      matrix:
+        python-version: [3.8, 3.8]
+
+    ## pytest 시 API 테스트를 위해 Action 환경에서 테스트 마이그레이션 및 테스트 환경 구성을 위해 선언함
+    services:
+      database:
+        image: postgres:13
+
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: user123!
+          POSTGRES_DB: sm4
+
+        ports:
+          - 5432:5432
+
+        
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+    
+      uses: actions/setup-python@v3
+      
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: Install Dependencies with Requirements.txt
+      run: |
+
+        pip install --upgrade pip
+        pip install -r ./Dockerfiles/py3-lib/requirements.txt\
+        
+    - name: Run code test by pytest
+      run: |
+
+        cd ./backend
+        pytest --cov --cov-report=xml
+
+    - name : Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
