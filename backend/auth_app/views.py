@@ -25,9 +25,8 @@ APPLY_RESPONSE = {
 }
 
 
+## -------------------------------------------------------------------
 class SignUpView(APIView):
-    # permissions_classes = [permissions.AllowAny]
-    ## Swagger 선언 레벨에서 Permssion 처리를 수행했으므로 보안을 분리할때 선언해서 사용
     serializer_class = SignUpSerializer
 
     @swagger_auto_schema(
@@ -50,10 +49,12 @@ class SignUpView(APIView):
             ## 패스워드 평문 저장이 아닌 암호화 저장을 위해 암호화 수행
             convert_data["password"] = crypt_pw
 
-            deserializer = self.serializer_class(
+            deserializer = self.serializer_class(  ## 역직렬화 수행
                 data=convert_data,
             )
-            deserializer.is_valid(raise_exception=True)
+            deserializer.is_valid(
+                raise_exception=True
+            )  ## 유효성 검사 및 문제 발생 시 raise_exception
             deserializer.save()
 
             res_code = 201
@@ -70,10 +71,9 @@ class SignUpView(APIView):
             return Response(custom_res, status=status.HTTP_400_BAD_REQUEST)
 
 
+## -------------------------------------------------------------------
 class SignInView(mixins.UpdateModelMixin, generics.GenericAPIView):
     serializer_class = SignInSchema
-    ## Swagger에서 입력되는 데이터와, 실제로 저장되는 데이터간 차이가 있으므로
-    ## Schema & Serializer로 역할을 구분한다.
 
     @swagger_auto_schema(
         operation_description="유저 로그인",
@@ -111,7 +111,6 @@ class SignInView(mixins.UpdateModelMixin, generics.GenericAPIView):
             # self.partial_update(deserializer)
 
             res_code = 200
-
             custom_res = custom_response(res_code)
 
             return Response(custom_res, status=status.HTTP_201_CREATED)
@@ -122,30 +121,3 @@ class SignInView(mixins.UpdateModelMixin, generics.GenericAPIView):
             custom_res = custom_response(res_code, message)
 
             return Response(custom_res, status=status.HTTP_400_BAD_REQUEST)
-
-
-# class BasicViewSet(viewsets.ModelViewSet):
-#     @csrf_exempt
-#     def create(self, request, pk: int = None):
-#         response = {"message": "해당 기능은 활성화되지 않았습니다."}
-#         return Response(response, status=status.HTTP_403_FORBIDDEN)
-
-#     @csrf_exempt
-#     def retrieve(self, request, pk: int = None):
-#         response = {"message": "해당 기능은 활성화되지 않았습니다."}
-#         return Response(response, status=status.HTTP_403_FORBIDDEN)
-
-#     @csrf_exempt
-#     def partial_update(self, request, pk: int = None):
-#         response = {"message": "해당 기능은 활성화되지 않았습니다."}
-#         return Response(response, status=status.HTTP_403_FORBIDDEN)
-
-#     @csrf_exempt
-#     def destroy(self, request, pk: int = None):
-#         response = {"message": "해당 기능은 활성화되지 않았습니다."}
-#         return Response(response, status=status.HTTP_403_FORBIDDEN)
-
-#     @csrf_exempt
-#     def update(self, request, pk: int = None):
-#         response = {"message": "해당 기능은 활성화되지 않았습니다."}
-#         return Response(response, status=status.HTTP_403_FORBIDDEN)
