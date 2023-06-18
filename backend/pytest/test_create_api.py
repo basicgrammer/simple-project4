@@ -74,35 +74,64 @@ class TaskCreateTestView(APITestCase):
         assert res.status_code == 400
         assert type(dict(res.data)) == dict
 
-    # def test_taskcreate_api_phase3(self) :
-    #     ## ------------------- 작업 등록 시 필드가 빠진 경우 에러 발생 확인
-    #     url = "/api/task/"
+    def test_taskcreate_api_phase3(self):
+        ## ------------------- 작업 등록 시 필드가 빠진 경우 에러 발생 확인
 
-    #     custom_data3 = task_create_data2
-    #     custom_data3["create_user"] = origin_res["id"]
-    #     custom_data3["team"] = origin_res["team"]
-    #     custom_data3.pop("content")
+        url = "/api/signup"
+
+        res = self.client.post(
+            url,
+            data=json.dumps(create_user_data7),
+            content_type="application/json",
+        )
+
+        origin_res = res.data
+
+        assert res.status_code == 201
+        assert type(dict(res.data)) == dict
+
+        url = "/api/task/"
+
+        custom_data = task_create_data3
+        custom_data["create_user"] = origin_res["id"]
+        custom_data["team"] = origin_res["team"]
+        custom_data.pop("content")
+
+        res = self.client.post(
+            url,
+            data=json.dumps(custom_data),
+            content_type="application/json",
+        )
+
+        assert res.status_code == 400
+        assert type(dict(res.data)) == dict
+
+    # def test_taskcreate_api_phase4(self):
+    #     ## ------------------- 작업 등록  KeyError 확인
+
+    #     url = "/api/signup"
 
     #     res = self.client.post(
     #         url,
-    #         data=json.dumps(custom_data3),
+    #         data=json.dumps(create_user_data8),
     #         content_type="application/json",
     #     )
 
-    #     assert res.status_code == 400
+    #     origin_res = res.data
+
+    #     assert res.status_code == 201
     #     assert type(dict(res.data)) == dict
 
-    #     ## ------------------- 작업 등록  KeyError 확인
     #     url = "/api/task"
 
-    #     custom_data2 = task_create_data2
-    #     custom_data2["create_user"] = origin_res["id"]
-    #     custom_data2["team"] = origin_res["team"]
-    #     custom_data2.pop("team")
+    #     custom_data = task_create_data4
+    #     custom_data["create_user"] = origin_res["id"]
+    #     custom_data["team"] = origin_res["team"]
+    #     custom_data.pop("team")
 
     #     res = self.client.post(
     #         url,
-    #         data=json.dumps(custom_data2),
+    #         data=json.dumps(custom_data),
     #         content_type="application/json",
     #     )
 

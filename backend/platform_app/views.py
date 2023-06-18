@@ -45,6 +45,14 @@ class BasicViewSet(viewsets.ModelViewSet):  ## REST API 구성을 위해 ModelVi
                 data["create_user"], data["team"]
             )
 
+            check2 = TaskService().team_count(data)
+            if check2 == False:
+                res_code = 400
+                message = "하위 업무 설정에서 팀 이름이 중복됩니다."
+                custom_res = custom_response(res_code, message)
+
+                return Response(custom_res, status=status.HTTP_400_BAD_REQUEST)
+
             if check:
                 deserializer = TaskSerializer(data=data)
                 deserializer.is_valid(raise_exception=True)

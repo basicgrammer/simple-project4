@@ -8,6 +8,8 @@ __all__ = (
     "create_user_data4",
     "create_user_data5",
     "create_user_data6",
+    "create_user_data7",
+    "create_user_data8",
     "post_user_data1",
     "post_user_data2",
     "post_user_data3",
@@ -15,6 +17,7 @@ __all__ = (
     "task_create_data1",
     "task_create_data2",
     "task_create_data3",
+    "task_create_data4",
 )
 
 
@@ -87,6 +90,19 @@ create_user_data6 = {
     "team": "danbi",
 }
 
+create_user_data7 = {
+    "username": "testuser207",
+    "password": "user123!",
+    "team": "danbi",
+}
+
+
+create_user_data8 = {
+    "username": "testuser198",
+    "password": "user123!",
+    "team": "danbi",
+}
+
 
 ## Method [POST] - signin API
 ## ------------------------------------------------------------------
@@ -154,6 +170,14 @@ task_create_data3 = {
     "sub_set": [{"team": "danbi"}],
 }
 
+
+task_create_data4 = {
+    "create_user": 1,
+    "team": "danbi",
+    "title": "string",
+    "content": "string",
+    "sub_set": [{"team": "danbi"}],
+}
 
 ## Method [Patch] - TaskPatchAPI
 ## ------------------------------------------------------------------

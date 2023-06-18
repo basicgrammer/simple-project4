@@ -185,7 +185,7 @@ class TaskService:
 
         return fix_data, query[0]
 
-    def team_count(self, data: list) -> bool:
+    def team_count(self, data: dict) -> bool:
         team_list = [
             "danbi",
             "darae",
@@ -198,10 +198,16 @@ class TaskService:
         count_list = [0] * len(team_list)
 
         for index in data["sub_set"]:
-            if index["team"] and index["is_delete"] == False:
+            if index.get("is_delete", None) is None:
                 count_list[team_list.index(index["team"])] += 1
 
                 if count_list[team_list.index(index["team"])] > 1:
                     return False
+            else:
+                if index["team"] and index["is_delete"] == False:
+                    count_list[team_list.index(index["team"])] += 1
+
+                    if count_list[team_list.index(index["team"])] > 1:
+                        return False
 
         return True
